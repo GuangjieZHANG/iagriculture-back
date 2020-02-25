@@ -11,8 +11,8 @@ import org.thethingsnetwork.data.mqtt.Client;
 
 import java.util.Arrays;
 
-@Path("/hello")
-public class GreetingResource {
+@Path("/init")
+public class InitResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -64,6 +64,6 @@ public class GreetingResource {
 
         client.start();
 
-        return "hello";
+        return "hello, init finished!";
     }
 }
