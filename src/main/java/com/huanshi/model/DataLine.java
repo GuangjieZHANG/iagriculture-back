@@ -1,4 +1,160 @@
 package com.huanshi.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+@Entity
 public class DataLine {
+
+    @Id
+    @GeneratedValue
+    private long id;
+    private float airTempreture;
+    private float airHumidity;
+    private String wind;
+    private float earthTempreture;
+    private float earthHumidity;
+    private float earthPh;
+    private float nitrogen; //N
+    private float phosphorus; //P
+    private float potassium; //K
+
+    private LocalDateTime time;
+
+    @ManyToOne
+    private Node device;
+
+    public DataLine() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public float getAirTempreture() {
+        return airTempreture;
+    }
+
+    public void setAirTempreture(float airTempreture) {
+        this.airTempreture = airTempreture;
+    }
+
+    public float getAirHumidity() {
+        return airHumidity;
+    }
+
+    public void setAirHumidity(float airHumidity) {
+        this.airHumidity = airHumidity;
+    }
+
+    public String getWind() {
+        return wind;
+    }
+
+    public void setWind(String wind) {
+        this.wind = wind;
+    }
+
+    public float getEarthTempreture() {
+        return earthTempreture;
+    }
+
+    public void setEarthTempreture(float earthTempreture) {
+        this.earthTempreture = earthTempreture;
+    }
+
+    public float getEarthHumidity() {
+        return earthHumidity;
+    }
+
+    public void setEarthHumidity(float earthHumidity) {
+        this.earthHumidity = earthHumidity;
+    }
+
+    public float getEarthPh() {
+        return earthPh;
+    }
+
+    public void setEarthPh(float earthPh) {
+        this.earthPh = earthPh;
+    }
+
+    public float getNitrogen() {
+        return nitrogen;
+    }
+
+    public void setNitrogen(float nitrogen) {
+        this.nitrogen = nitrogen;
+    }
+
+    public float getPhosphorus() {
+        return phosphorus;
+    }
+
+    public void setPhosphorus(float phosphorus) {
+        this.phosphorus = phosphorus;
+    }
+
+    public float getPotassium() {
+        return potassium;
+    }
+
+    public void setPotassium(float potassium) {
+        this.potassium = potassium;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public Node getDevice() {
+        return device;
+    }
+
+    public void setDevice(Node device) {
+        this.device = device;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DataLine)) return false;
+        DataLine dataLine = (DataLine) o;
+        return getId() == dataLine.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "DataLine{" +
+                "id=" + id +
+                ", airTempreture=" + airTempreture +
+                ", airHumidity=" + airHumidity +
+                ", wind='" + wind + '\'' +
+                ", earthTempreture=" + earthTempreture +
+                ", earthHumidity=" + earthHumidity +
+                ", earthPh=" + earthPh +
+                ", nitrogen=" + nitrogen +
+                ", phosphorus=" + phosphorus +
+                ", potassium=" + potassium +
+                ", time=" + time +
+                ", device=" + device +
+                '}';
+    }
 }

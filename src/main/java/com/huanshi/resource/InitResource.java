@@ -16,7 +16,7 @@ public class InitResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String hello() throws Exception{
+    public String init() throws Exception{
         String region =  "asia-se";
         String appId = "mtest";
         String accessKey = "ttn-account-v2.agyVWV7ms0P35DRnxVfTRkfZt8ieMzM31nLE9cGku4E";
