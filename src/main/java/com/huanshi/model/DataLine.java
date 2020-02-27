@@ -1,13 +1,15 @@
 package com.huanshi.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "DataLine.getAll", query = "select dataLine from DataLine dataLine"),
+        @NamedQuery(name = "DataLine.getTheLatest", query = "select dataLine from DataLine dataLine " +
+                "where dataLine.device.name = :deviceName and dataLine.id = (select max(d.id) from DataLine d where d.device.name = :deviceName)")
+})
 public class DataLine {
 
     @Id
@@ -29,6 +31,22 @@ public class DataLine {
     private Node device;
 
     public DataLine() {
+    }
+
+    public DataLine(float airTempreture, float airHumidity, String wind, float earthTempreture,
+                    float earthHumidity, float earthPh, float nitrogen, float phosphorus, float potassium,
+                    LocalDateTime time, Node device) {
+        this.airTempreture = airTempreture;
+        this.airHumidity = airHumidity;
+        this.wind = wind;
+        this.earthTempreture = earthTempreture;
+        this.earthHumidity = earthHumidity;
+        this.earthPh = earthPh;
+        this.nitrogen = nitrogen;
+        this.phosphorus = phosphorus;
+        this.potassium = potassium;
+        this.time = time;
+        this.device = device;
     }
 
     public long getId() {

@@ -1,11 +1,13 @@
 package com.huanshi.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Node.getAll", query = "select node from Node node"),
+        @NamedQuery(name = "Node.getByName", query = "select node from Node node where node.name = :name")
+})
 public class Node {
 
     @Id
@@ -14,6 +16,10 @@ public class Node {
     private String name;
 
     public Node() {
+    }
+
+    public Node(String name) {
+        this.name = name;
     }
 
     public long getId() {
