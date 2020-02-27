@@ -7,8 +7,9 @@ import java.util.Objects;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "DataLine.getAll", query = "select dataLine from DataLine dataLine"),
+        @NamedQuery(name = "DataLine.getAllByDevice", query = "select dataLine from DataLine dataLine where dataLine.device.name = :deviceName"),
         @NamedQuery(name = "DataLine.getTheLatest", query = "select dataLine from DataLine dataLine " +
-                "where dataLine.device.name = :deviceName and dataLine.id = (select max(d.id) from DataLine d where d.device.name = :deviceName)")
+                "where dataLine.device.deviceName = :deviceName and dataLine.id = (select max(d.id) from DataLine d where d.device.deviceName = :deviceName)")
 })
 public class DataLine {
 

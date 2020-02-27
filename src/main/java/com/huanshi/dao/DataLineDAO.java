@@ -1,12 +1,10 @@
 package com.huanshi.dao;
 
 import com.huanshi.model.DataLine;
-import com.huanshi.model.Node;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @DAO
@@ -19,6 +17,11 @@ public class DataLineDAO {
         return em.createNamedQuery("DataLine.getAll", DataLine.class).getResultList();
     }
 
+    public List<DataLine> getAllByDevice(String deviceName) {
+        return em.createNamedQuery("DataLine.getAllByDevice", DataLine.class)
+                .setParameter("deviceName", deviceName).getResultList();
+    }
+
     public DataLine get(long id) {
         return em.find(DataLine.class, id);
     }
@@ -29,11 +32,11 @@ public class DataLineDAO {
                 .getSingleResult();
     }
 
-    public DataLine create(float airTempreture, float airHumidity, String wind, float earthTempreture,
-                           float earthHumidity, float earthPh, float nitrogen, float phosphorus, float potassium,
-                           LocalDateTime time, Node device) {
-        DataLine created = new DataLine(airTempreture, airHumidity, wind, earthTempreture, earthHumidity,
-                earthPh, nitrogen, phosphorus, potassium, time, device);
+    public DataLine create(DataLine dataLine) {
+        DataLine created = new DataLine(dataLine.getAirTempreture(), dataLine.getAirHumidity(), dataLine.getWind(),
+                dataLine.getEarthTempreture(), dataLine.getEarthHumidity(), dataLine.getEarthPh(),
+                dataLine.getNitrogen(), dataLine.getPhosphorus(), dataLine.getPotassium(),
+                dataLine.getTime(), dataLine.getDevice());
         em.persist(created);
         return created;
     }

@@ -1,10 +1,16 @@
 package com.huanshi.resource;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.huanshi.dao.DataLineDAO;
+import com.huanshi.dao.NodeDAO;
+import com.huanshi.model.DataLine;
+import com.huanshi.model.Node;
+import com.huanshi.tool.DataAdapter;
 import org.thethingsnetwork.data.common.Connection;
 import org.thethingsnetwork.data.common.messages.*;
 import org.thethingsnetwork.data.mqtt.Client;
@@ -13,6 +19,15 @@ import java.util.Arrays;
 
 @Path("/init")
 public class InitResource {
+
+    @Inject
+    private NodeDAO nodeDAO;
+
+    @Inject
+    private DataLineDAO dataLineDAO;
+
+    @Inject
+    private DataAdapter dataAdapter;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -52,8 +67,11 @@ public class InitResource {
         // Here we trait the data
         client.onMessage((String devId, DataMessage data) -> {
             System.out.println("Message: " + devId + " " + ((UplinkMessage) data).getCounter());
-            System.out.println("------metadata-------" + ((UplinkMessage) data).getMetadata() + "------------------");
-            System.out.println("------payload-------" + Arrays.toString(((UplinkMessage) data).getPayloadRaw()) + "------------------");
+            Node device = nodeDAO.getByName(devId);
+            DataLine dataLine = dataAdapter.dataMessageToDataLine(data);
+            dataLine.setDevice(device);
+            // TODO
+            // dataLineDAO.create(dataLine);
         });
 
         client.onActivation((String _devId, ActivationMessage _data) -> System.out.println("Activation: " + _devId + ", data: " + _data.getDevAddr()));

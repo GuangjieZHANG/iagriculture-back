@@ -43,6 +43,6 @@ public class NodeDAO {
 
     public void update(Node node) {
         Node toUpdate = em.find(Node.class, node.getId());
-        toUpdate.setName(node.getName());
+        toUpdate.setDeviceName(node.getDeviceName());
     }
 }

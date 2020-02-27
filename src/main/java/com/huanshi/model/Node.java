@@ -6,20 +6,20 @@ import java.util.Objects;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Node.getAll", query = "select node from Node node"),
-        @NamedQuery(name = "Node.getByName", query = "select node from Node node where node.name = :name")
+        @NamedQuery(name = "Node.getByName", query = "select node from Node node where node.deviceName = :name")
 })
 public class Node {
 
     @Id
     @GeneratedValue
     private long id;
-    private String name;
+    private String deviceName;
 
     public Node() {
     }
 
-    public Node(String name) {
-        this.name = name;
+    public Node(String deviceName) {
+        this.deviceName = deviceName;
     }
 
     public long getId() {
@@ -30,12 +30,12 @@ public class Node {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getDeviceName() {
+        return deviceName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Node {
     public String toString() {
         return "Node{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", deviceName='" + deviceName + '\'' +
                 '}';
     }
 }
