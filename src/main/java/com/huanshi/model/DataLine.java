@@ -7,9 +7,9 @@ import java.util.Objects;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "DataLine.getAll", query = "select dataLine from DataLine dataLine"),
-        @NamedQuery(name = "DataLine.getAllByDevice", query = "select dataLine from DataLine dataLine where dataLine.device.name = :deviceName"),
+        @NamedQuery(name = "DataLine.getAllByDevice", query = "select dataLine from DataLine dataLine where dataLine.device = :deviceName"),
         @NamedQuery(name = "DataLine.getTheLatest", query = "select dataLine from DataLine dataLine " +
-                "where dataLine.device.deviceName = :deviceName and dataLine.id = (select max(d.id) from DataLine d where d.device.deviceName = :deviceName)")
+                "where dataLine.device = :deviceName and dataLine.id = (select max(d.id) from DataLine d where d.device = :deviceName)")
 })
 public class DataLine {
 
@@ -28,15 +28,14 @@ public class DataLine {
 
     private LocalDateTime time;
 
-    @ManyToOne
-    private Node device;
+    private String device;
 
     public DataLine() {
     }
 
     public DataLine(float airTempreture, float airHumidity, String wind, float earthTempreture,
                     float earthHumidity, float earthPh, float nitrogen, float phosphorus, float potassium,
-                    LocalDateTime time, Node device) {
+                    LocalDateTime time, String device) {
         this.airTempreture = airTempreture;
         this.airHumidity = airHumidity;
         this.wind = wind;
@@ -138,11 +137,11 @@ public class DataLine {
         this.time = time;
     }
 
-    public Node getDevice() {
+    public String getDevice() {
         return device;
     }
 
-    public void setDevice(Node device) {
+    public void setDevice(String device) {
         this.device = device;
     }
 
