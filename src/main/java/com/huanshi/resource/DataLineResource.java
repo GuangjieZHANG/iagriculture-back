@@ -32,10 +32,10 @@ public class DataLineResource {
     }
 
     @GET
-    @Path("/{deviceName}/history")
+    @Path("/history/{deviceName}")
     public Response getHistoryByDevice(@PathParam("deviceName")String deviceName) {
-
-        return Response.ok("getHistoryByDevice").build();
+        List<DataLine> dataLines = dataLineDAO.getHistoryByDevice(deviceName);
+        return Response.ok(dataLines).build();
     }
 
 }

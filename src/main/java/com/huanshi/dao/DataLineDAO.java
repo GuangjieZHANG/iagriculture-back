@@ -65,4 +65,14 @@ public class DataLineDAO {
         toUpdate.setDevice(dataLine.getDevice());
     }
 
+    public List<DataLine> getHistoryByDevice(String deviceName) {
+        String query = "select dataLine from DataLine dataLine where dataLine.device = :deviceName order by dataLine.id desc";
+        return em.createQuery(query, DataLine.class)
+                .setParameter("deviceName", deviceName)
+                .setMaxResults(20)
+                .getResultList();
+    }
+
+
+
 }
