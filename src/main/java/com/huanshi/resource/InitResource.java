@@ -23,10 +23,10 @@ public class InitResource {
 
 
     @Inject
-    private DataLineDAO dataLineDAO;
+    DataLineDAO dataLineDAO;
 
     @Inject
-    private DataAdapter dataAdapter;
+    DataAdapter dataAdapter;
 
     @GET
     public String init() throws Exception{

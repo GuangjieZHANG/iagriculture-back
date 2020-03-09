@@ -15,7 +15,7 @@ import java.util.List;
 public class DataLineResource {
 
     @Inject
-    private DataLineDAO dataLineDAO;
+    DataLineDAO dataLineDAO;
 
     @GET
     @Path("/last/{deviceName}")

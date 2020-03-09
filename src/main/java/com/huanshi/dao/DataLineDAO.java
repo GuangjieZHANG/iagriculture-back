@@ -11,7 +11,7 @@ import java.util.List;
 public class DataLineDAO {
 
     @PersistenceContext
-    private EntityManager em;
+    EntityManager em;
 
     public List<DataLine> getAll() {
         return em.createNamedQuery("DataLine.getAll", DataLine.class).getResultList();
@@ -66,7 +66,7 @@ public class DataLineDAO {
     }
 
     public List<DataLine> getHistoryByDevice(String deviceName) {
-        String query = "select dataLine from DataLine dataLine where dataLine.device = :deviceName order by dataLine.id desc";
+        String query = "select dataLine from DataLine dataLine where dataLine.device = :deviceName order by dataLine.id asc ";
         return em.createQuery(query, DataLine.class)
                 .setParameter("deviceName", deviceName)
                 .setMaxResults(20)
