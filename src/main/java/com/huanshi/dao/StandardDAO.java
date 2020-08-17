@@ -5,7 +5,6 @@ import com.huanshi.model.Standard;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @DAO
@@ -28,14 +27,7 @@ public class StandardDAO {
                 .getSingleResult();
     }
 
-    public Standard create(float maxAirTempreture, float minAirTempreture, float maxAirHumidity, float minAirHumidity,
-                           float maxEarthTempreture, float minEarthTempreture, float maxEarthHumidity, float minEarthHumidity,
-                           float maxEarthPh, float minEarthPh, float maxNitrogen, float minNitrogen, float maxPhosphorus,
-                           float minPhosphorus, float maxPotassium, float minPotassium, LocalDateTime time, String device) {
-        Standard standard = new Standard( maxAirTempreture,  minAirTempreture,  maxAirHumidity,  minAirHumidity,
-         maxEarthTempreture,  minEarthTempreture,  maxEarthHumidity,  minEarthHumidity,
-         maxEarthPh,  minEarthPh,  maxNitrogen,  minNitrogen,  maxPhosphorus,
-         minPhosphorus,  maxPotassium,  minPotassium,  time,  device);
+    public Standard create(Standard standard) {
         em.persist(standard);
         return standard;
     }

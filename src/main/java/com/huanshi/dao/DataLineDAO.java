@@ -33,12 +33,8 @@ public class DataLineDAO {
     }
 
     public DataLine create(DataLine dataLine) {
-        DataLine created = new DataLine(dataLine.getAirTempreture(), dataLine.getAirHumidity(), dataLine.getWind(),
-                dataLine.getEarthTempreture(), dataLine.getEarthHumidity(), dataLine.getEarthPh(),
-                dataLine.getNitrogen(), dataLine.getPhosphorus(), dataLine.getPotassium(),
-                dataLine.getTime(), dataLine.getDevice());
-        em.persist(created);
-        return created;
+        em.persist(dataLine);
+        return dataLine;
     }
 
     public DataLine delete(long id) {

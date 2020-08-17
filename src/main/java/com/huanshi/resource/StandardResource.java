@@ -1,6 +1,7 @@
 package com.huanshi.resource;
 
 import com.huanshi.dao.StandardDAO;
+import com.huanshi.model.ErrorMessage;
 import com.huanshi.model.Standard;
 
 import javax.inject.Inject;
@@ -9,11 +10,14 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Path("/standard")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class StandardResource {
+
+    private static final Logger LOGGER = Logger.getLogger("Agriculture-back");
 
     @Inject
     StandardDAO standardDAO;
@@ -33,25 +37,42 @@ public class StandardResource {
 
     @PUT
     public Response updateStandard(@Valid Standard standard){
-        standardDAO.update(standard);
-        return Response.ok(standard).build();
+        try {
+            standardDAO.update(standard);
+            return Response.ok(standard).build();
+        }  catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            ErrorMessage message = new ErrorMessage("none",
+                    "Cannot update the dataline, please re-try again later.", "none");
+            return Response.serverError().entity(message).build();
+        }
     }
 
     @POST
     public Response createStandard(@Valid Standard standard) {
-        Standard created = standardDAO.create(standard.getMaxAirTempreture(), standard.getMinAirTempreture(),
-                standard.getMaxAirHumidity(), standard.getMinAirHumidity(), standard.getMaxEarthTempreture(),
-                standard.getMinEarthTempreture(), standard.getMaxEarthHumidity(), standard.getMinEarthHumidity(),
-                standard.getMaxEarthPh(),standard.getMinEarthPh(), standard.getMaxNitrogen(), standard.getMinNitrogen(),
-                standard.getMaxPhosphorus(), standard.getMinPhosphorus(), standard.getMaxPotassium(), standard.getMinPotassium(),
-                standard.getTime(), standard.getDevice());
-        return Response.ok(created).build();
+        try {
+            Standard created = standardDAO.create(standard);
+            return Response.ok(created).build();
+        }  catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            ErrorMessage message = new ErrorMessage("none",
+                    "Cannot create the dataline, please re-try again later.", "none");
+            return Response.serverError().entity(message).build();
+        }
+
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteStandard(@PathParam("id") long id) {
-        Standard standard = standardDAO.delete(id);
-        return Response.ok(standard).build();
+        try {
+            Standard standard = standardDAO.delete(id);
+            return Response.ok(standard).build();
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            ErrorMessage message = new ErrorMessage("none",
+                    "Cannot delete the latest dataline, please re-try again later.", "none");
+            return Response.serverError().entity(message).build();
+        }
     }
 }

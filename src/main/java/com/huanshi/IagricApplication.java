@@ -1,26 +1,28 @@
-package com.huanshi.resource;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+package com.huanshi;
 
 import com.huanshi.dao.DataLineDAO;
 import com.huanshi.model.DataLine;
 import com.huanshi.tool.DataAdapter;
+import io.quarkus.runtime.ShutdownEvent;
+import io.quarkus.runtime.StartupEvent;
 import org.thethingsnetwork.data.common.Connection;
-import org.thethingsnetwork.data.common.messages.*;
+import org.thethingsnetwork.data.common.messages.ActivationMessage;
+import org.thethingsnetwork.data.common.messages.DataMessage;
+import org.thethingsnetwork.data.common.messages.DownlinkMessage;
+import org.thethingsnetwork.data.common.messages.RawMessage;
 import org.thethingsnetwork.data.mqtt.Client;
 
-@Path("/init")
-@ApplicationScoped
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-public class InitResource {
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+import javax.ws.rs.core.Application;
 
+@ApplicationScoped
+public class IagricApplication extends Application {
+
+    private static String region =  "asia-se";
+    private static String appId = "mtest";
+    private static String accessKey = "ttn-account-v2.agyVWV7ms0P35DRnxVfTRkfZt8ieMzM31nLE9cGku4E";
 
     @Inject
     DataLineDAO dataLineDAO;
@@ -28,23 +30,8 @@ public class InitResource {
     @Inject
     DataAdapter dataAdapter;
 
-    @GET
-    public String init() throws Exception{
-        String region =  "asia-se";
-        String appId = "mtest";
-        String accessKey = "ttn-account-v2.agyVWV7ms0P35DRnxVfTRkfZt8ieMzM31nLE9cGku4E";
-
+    void onStart(@Observes StartupEvent ev) throws Exception{
         Client client = new Client(region, appId, accessKey);
-
-        class Response {
-
-            private boolean led;
-
-            public Response(boolean _led) {
-                led = _led;
-            }
-        }
-
         client.onMessage(null, "led", (String _devId, DataMessage _data) -> {
             try {
                 RawMessage message = (RawMessage) _data;
@@ -71,13 +58,22 @@ public class InitResource {
         });
 
         client.onActivation((String _devId, ActivationMessage _data) -> System.out.println("Activation: " + _devId + ", data: " + _data.getDevAddr()));
-
         client.onError((Throwable _error) -> System.err.println("error: " + _error.getMessage()));
-
         client.onConnected((Connection _client) -> System.out.println(" ------------ Connected ! ----------------"));
 
         client.start();
-
-        return "hello, init finished!";
+        System.out.println("=======The server is starting=======");
     }
+
+    void onStop(@Observes ShutdownEvent ev) {
+        System.out.println("=======The server is stopping=======");
+    }
+
+    class Response {
+        private boolean led;
+        public Response(boolean _led) {
+            led = _led;
+        }
+    }
+
 }

@@ -2,17 +2,21 @@ package com.huanshi.resource;
 
 import com.huanshi.dao.DataLineDAO;
 import com.huanshi.model.DataLine;
+import com.huanshi.model.ErrorMessage;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Path("/dataline")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class DataLineResource {
+
+    private static final Logger LOGGER = Logger.getLogger("Agriculture-back");
 
     @Inject
     DataLineDAO dataLineDAO;

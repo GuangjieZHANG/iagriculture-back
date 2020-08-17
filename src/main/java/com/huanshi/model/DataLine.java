@@ -14,7 +14,8 @@ import java.util.Objects;
 public class DataLine {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private long id;
     private float airTempreture;
     private float airHumidity;

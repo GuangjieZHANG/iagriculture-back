@@ -15,7 +15,8 @@ import java.util.Objects;
 public class Standard {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private long id;
 
     private float maxAirTempreture;
