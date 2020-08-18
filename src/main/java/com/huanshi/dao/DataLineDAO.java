@@ -46,19 +46,13 @@ public class DataLineDAO {
         return dataLine;
     }
 
-    public void update(DataLine dataLine) {
+    public DataLine update(DataLine dataLine) {
         DataLine toUpdate = em.find(DataLine.class, dataLine.getId());
-        toUpdate.setAirTempreture(dataLine.getAirTempreture());
-        toUpdate.setAirHumidity(dataLine.getAirHumidity());
-        toUpdate.setWind(dataLine.getWind());
-        toUpdate.setEarthTempreture(dataLine.getEarthTempreture());
-        toUpdate.setEarthHumidity(dataLine.getEarthHumidity());
-        toUpdate.setEarthPh(dataLine.getEarthPh());
-        toUpdate.setNitrogen(dataLine.getNitrogen());
-        toUpdate.setPhosphorus(dataLine.getPhosphorus());
-        toUpdate.setPotassium(dataLine.getPotassium());
-        toUpdate.setTime(dataLine.getTime());
-        toUpdate.setDevice(dataLine.getDevice());
+        if (toUpdate == null)
+            throw new EntityNotFoundException();
+        // Device will not change when update
+        dataLine.setDevice(toUpdate.getDevice());
+        return em.merge(dataLine);
     }
 
     public List<DataLine> getHistoryByDevice(String deviceName) {

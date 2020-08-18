@@ -37,7 +37,6 @@ public class IagricApplication extends Application {
                 RawMessage message = (RawMessage) _data;
                 // Toggle the LED
                 DownlinkMessage response = new DownlinkMessage(0, new Response(!message.asBoolean()));
-
                 /**
                  * If you don't have an encoder payload function:
                  * client.send(_devId, new Response(0, message.asBoolean() ? new byte[]{0x00} : new byte[]{0x01}));

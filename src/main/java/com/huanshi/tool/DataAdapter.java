@@ -13,19 +13,27 @@ public class DataAdapter {
     public DataLine dataMessageToDataLine(DataMessage dataMessage){
         DataLine dataLine = new DataLine();
         byte[] data = ((UplinkMessage) dataMessage).getPayloadRaw();
-        dataLine.setAirTempreture(data[0]);
-        dataLine.setAirHumidity(data[1]);
-        dataLine.setWind(data[2]+"");
-        dataLine.setEarthTempreture(data[3]);
-        dataLine.setEarthHumidity(data[4]);
-        dataLine.setEarthPh(data[5]);
-        dataLine.setNitrogen(data[6]);
-        dataLine.setPotassium(data[7]);
-        dataLine.setPhosphorus(data[8]);
+        float luminosity = (data[0] & 0xFF) * 16777216 + (data[1] & 0xFF) * 65536 + (data[2] & 0xFF) *256 + (data[3] & 0xFF);
+        float airHumidity = (float) (((data[4] & 0xFF) *256 + (data[5] & 0xFF)) / 10.0);
+        float airTempreture = calculateTem(data[6], data[7]);
+        float earthHumidity = (float) (((data[8] & 0xFF) *256 + (data[9] & 0xFF)) / 10.0);
+        float earthTempreture = calculateTem(data[10], data[11]);
+        float earthConductivity = (data[12] & 0xFF) *256 + (data[13] & 0xFF);
+        dataLine.setLuminosity(luminosity);        // 0 1 2 3
+        dataLine.setAirHumidity(airHumidity);       // 4 5
+        dataLine.setAirTempreture(airTempreture);     // 6 7
+        dataLine.setEarthHumidity(earthHumidity);     // 8 9
+        dataLine.setEarthTempreture(earthTempreture);   // 10 11
+        dataLine.setEarthConductivity(earthConductivity); // 12 13
         String time = ((UplinkMessage) dataMessage).getMetadata().getTime().substring(0,19);
         LocalDateTime dateTime = LocalDateTime.parse(time);
         dataLine.setTime(dateTime);
         return dataLine;
+    }
+
+    public float calculateTem(byte high, byte low) {
+        float tem = (high & 0xFF) *256 + (low & 0xFF);
+        return high < 0 ? (tem - 65536)/10 : tem/10;
     }
 
 }

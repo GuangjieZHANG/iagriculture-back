@@ -19,13 +19,10 @@ public class DataLine {
     private long id;
     private float airTempreture;
     private float airHumidity;
-    private String wind;
+    private float luminosity;
     private float earthTempreture;
     private float earthHumidity;
-    private float earthPh;
-    private float nitrogen; //N
-    private float phosphorus; //P
-    private float potassium; //K
+    private float earthConductivity;
 
     private LocalDateTime time;
 
@@ -34,18 +31,14 @@ public class DataLine {
     public DataLine() {
     }
 
-    public DataLine(float airTempreture, float airHumidity, String wind, float earthTempreture,
-                    float earthHumidity, float earthPh, float nitrogen, float phosphorus, float potassium,
-                    LocalDateTime time, String device) {
+    public DataLine(float airTempreture, float airHumidity, float luminosity, float earthTempreture,
+                    float earthHumidity, float earthConductivity, LocalDateTime time, String device) {
         this.airTempreture = airTempreture;
         this.airHumidity = airHumidity;
-        this.wind = wind;
+        this.luminosity = luminosity;
         this.earthTempreture = earthTempreture;
         this.earthHumidity = earthHumidity;
-        this.earthPh = earthPh;
-        this.nitrogen = nitrogen;
-        this.phosphorus = phosphorus;
-        this.potassium = potassium;
+        this.earthConductivity = earthConductivity;
         this.time = time;
         this.device = device;
     }
@@ -74,12 +67,12 @@ public class DataLine {
         this.airHumidity = airHumidity;
     }
 
-    public String getWind() {
-        return wind;
+    public float getLuminosity() {
+        return luminosity;
     }
 
-    public void setWind(String wind) {
-        this.wind = wind;
+    public void setLuminosity(float luminosity) {
+        this.luminosity = luminosity;
     }
 
     public float getEarthTempreture() {
@@ -98,36 +91,12 @@ public class DataLine {
         this.earthHumidity = earthHumidity;
     }
 
-    public float getEarthPh() {
-        return earthPh;
+    public float getEarthConductivity() {
+        return earthConductivity;
     }
 
-    public void setEarthPh(float earthPh) {
-        this.earthPh = earthPh;
-    }
-
-    public float getNitrogen() {
-        return nitrogen;
-    }
-
-    public void setNitrogen(float nitrogen) {
-        this.nitrogen = nitrogen;
-    }
-
-    public float getPhosphorus() {
-        return phosphorus;
-    }
-
-    public void setPhosphorus(float phosphorus) {
-        this.phosphorus = phosphorus;
-    }
-
-    public float getPotassium() {
-        return potassium;
-    }
-
-    public void setPotassium(float potassium) {
-        this.potassium = potassium;
+    public void setEarthConductivity(float earthConductivity) {
+        this.earthConductivity = earthConductivity;
     }
 
     public LocalDateTime getTime() {
@@ -165,15 +134,12 @@ public class DataLine {
                 "id=" + id +
                 ", airTempreture=" + airTempreture +
                 ", airHumidity=" + airHumidity +
-                ", wind='" + wind + '\'' +
+                ", luminosity=" + luminosity +
                 ", earthTempreture=" + earthTempreture +
                 ", earthHumidity=" + earthHumidity +
-                ", earthPh=" + earthPh +
-                ", nitrogen=" + nitrogen +
-                ", phosphorus=" + phosphorus +
-                ", potassium=" + potassium +
+                ", earthConductivity=" + earthConductivity +
                 ", time=" + time +
-                ", device=" + device +
+                ", device='" + device + '\'' +
                 '}';
     }
 }
